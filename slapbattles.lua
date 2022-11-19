@@ -48,9 +48,16 @@ local Window = Rayfield:CreateWindow({
 	CurrentValue = false,
 	Flag = "Toggle5", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(AutoClickToggle)
-		while AutoClickToggle do
-			wait(0.1)
-			fireclickdetector(game:GetService("Workspace")["ÅTycoon" .. game.Players.LocalPlayer.Character.Name].Click.ClickDetector) -- The function that takes place when the toggle is pressed
+		if AutoClickToggle == true then
+			StartAutoClick = coroutine.create(function()
+				while wait() do
+					wait(0.1)
+					fireclickdetector(game:GetService("Workspace")["ÅTycoon" .. game.Players.LocalPlayer.Character.Name].Click.ClickDetector) -- The function that takes place when the toggle is pressed
+				end
+			end)
+		coroutine.resume(StartAutoClick)
+		else
+			coroutine.close(StartAutoClick)
 		end
 	end
 	})
@@ -130,16 +137,23 @@ local Window = Rayfield:CreateWindow({
 	CurrentValue = false,
 	Flag = "Toggle3", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(BobFarmToggle)
-		while BobFarmToggle do
-			game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Vector3.new(-563.724, 329.832, 3.99025)
-			wait(0.5)
-			game:GetService'VirtualUser':CaptureController()
-            game:GetService'VirtualUser':SetKeyDown('0x65')
-            wait(0.3)
-            game:GetService'VirtualUser':SetKeyUp('0x65')
-            wait(0.1)
-            game:GetService("ReplicatedStorage").HumanoidDied:FireServer(game.Players.LocalPlayer.Character, true)
-			wait(5)
-        end
+		if BobFarmToggle == true then
+			StartBobFarm = coroutine.create(function()
+				while wait() do
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Vector3.new(-563.724, 329.832, 3.99025)
+					wait(0.5)
+					game:GetService'VirtualUser':CaptureController()
+					game:GetService'VirtualUser':SetKeyDown('0x65')
+					wait(0.3)
+					game:GetService'VirtualUser':SetKeyUp('0x65')
+					wait(0.1)
+					game:GetService("ReplicatedStorage").HumanoidDied:FireServer(game.Players.LocalPlayer.Character, true)
+					wait(5)
+				end
+			end)
+			coroutine.resume(StartBobFarm)
+		else
+			coroutine.close(StartBobFarm)
+		end
 	end
 	})
