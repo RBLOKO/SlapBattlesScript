@@ -46,7 +46,7 @@ local Window = Rayfield:CreateWindow({
 	local AutoClick = SlapBattles:CreateToggle({
 	Name = "Toggle AutoClick",
 	CurrentValue = false,
-	Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Flag = "Toggle5", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(AutoClickToggle)
 		while AutoClickToggle do
 			wait(0.1)
@@ -77,7 +77,7 @@ local Window = Rayfield:CreateWindow({
 	local SlapplesFarm = SlapBattles:CreateToggle({
 	Name = "Toggle Slapples Farm",
 	CurrentValue = false,
-	Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Flag = "Toggle4", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(SlappleFarmToggle)
 		while wait() do
 			if SlappleFarmToggle == false then break end
@@ -94,7 +94,7 @@ local Window = Rayfield:CreateWindow({
 	local DestroyLighting = SlapBattles:CreateToggle({
 	Name = "Toggle Destroy Lighting",
 	CurrentValue = false,
-	Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Flag = "Toggle2", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(DestroyLighting)
 		while wait() do
 			if DestroyLighting == false then break end
@@ -109,7 +109,7 @@ local Window = Rayfield:CreateWindow({
 	end
 	})
 	local RockMove = SlapBattles:CreateButton({
-		Name = "Let you move when you are in rock form (cant slap tho)",
+		Name = "Let you move when you are in rock form (invincibility)",
 		Callback = function()
 			game.Players.LocalPlayer.Character.rock.Weld:Destroy()
 		end
@@ -123,5 +123,23 @@ local Window = Rayfield:CreateWindow({
 	Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(SizeValue)
 		game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Tool").Glove.Size = Vector3.new(SizeValue, SizeValue, SizeValue / 2)
-	end,
-})
+	end
+	})
+	local BobFarm = SlapBattles:CreateToggle({
+	Name = "Toggle Bob Farm CANT DISABLE!!!",
+	CurrentValue = false,
+	Flag = "Toggle3", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(BobFarmToggle)
+		while BobFarmToggle do
+			game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Vector3.new(-563.724, 329.832, 3.99025)
+			wait(0.5)
+			game:GetService'VirtualUser':CaptureController()
+            game:GetService'VirtualUser':SetKeyDown('0x65')
+            wait(0.3)
+            game:GetService'VirtualUser':SetKeyUp('0x65')
+            wait(0.1)
+            game:GetService("ReplicatedStorage").HumanoidDied:FireServer(game.Players.LocalPlayer.Character, true)
+			wait(5)
+        end
+	end
+	})
