@@ -148,7 +148,7 @@ local Window = Rayfield:CreateWindow({
 					game:GetService'VirtualUser':SetKeyUp('0x65')
 					wait(0.1)
 					game:GetService("ReplicatedStorage").HumanoidDied:FireServer(game.Players.LocalPlayer.Character, true)
-					wait(5)
+					wait(6)
 				end
 			end)
 			coroutine.resume(StartBobFarm)
