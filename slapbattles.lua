@@ -184,11 +184,27 @@ local Window = Rayfield:CreateWindow({
 	})
 	local Keybind = SlapBattles:CreateKeybind({
 	Name = "Go visible",
-	CurrentKeybind = "Y",
+	CurrentKeybind = "G",
 	HoldToInteract = false,
 	Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
-	Callback = function(Noinvisible)
+	Callback = function(NoInvisible)
 		game:GetService("ReplicatedStorage").Ghostinvisibilitydeactivated:FireServer()
 		game:GetService("Workspace").creepyambiance:Destroy()
+	end
+	})
+	local Mail = SlapBattles:CreateSection("Mail")
+	local Keybind = SlapBattles:CreateKeybind({
+	Name = "Send mail",
+	CurrentKeybind = "F",
+	HoldToInteract = false,
+	Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(SendMail)
+		if not cd then 
+			if cd then return end
+			game:GetService("ReplicatedStorage").MailSend:FireServer()
+			cd = true
+			wait(5)
+			cd = false
+		end
 	end
 	})
