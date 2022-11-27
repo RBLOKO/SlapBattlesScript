@@ -86,15 +86,21 @@ local Window = Rayfield:CreateWindow({
 	CurrentValue = false,
 	Flag = "Toggle4", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(SlappleFarmToggle)
-		while wait() do
-			if SlappleFarmToggle == false then break end
-			for i, v in pairs(game:GetService("Workspace").Arena.island5.Slapples:GetDescendants()) do
-				if v.Name == "TouchInterest" and v.Parent then
-					if v.Parent == false then break end
-					firetouchinterest(game.Players.LocalPlayer.Character.Torso, v.Parent, 0)
-					break
+		if SlappleFarmToggle == true then
+			StartSlappleFarm = coroutine.create(function()
+				while wait() do
+					for i, v in pairs(game:GetService("Workspace").Arena.island5.Slapples:GetDescendants()) do
+						if v.Name == "TouchInterest" and v.Parent then
+						if v.Parent == false then break end
+							firetouchinterest(game.Players.LocalPlayer.Character.Torso, v.Parent, 0)
+						break
+					end
 				end
 			end
+			end)
+			coroutine.resume(StartSlappleFarm)
+		else
+			coroutine.close(StartSlappleFarm)
 		end
 	end
 	})
@@ -115,11 +121,12 @@ local Window = Rayfield:CreateWindow({
 		end
 	end
 	})
-	local RockMove = SlapBattles:CreateButton({
-		Name = "Let you move when you are in rock form (invincibility)",
+	local RemoveReaper = SlapBattles:CreateButton({
+		Name = "Remove reaper mark",
 		Callback = function()
-			game.Players.LocalPlayer.Character.rock.Weld:Destroy()
-		end
+			game:GetService("ReplicatedStorage").ReaperGone:FireServer(game:GetService("Players").LocalPlayer.Character.DeathMark)
+			game:GetService("Lighting").DeathMarkColorCorrection:Destroy()
+		end,
 	})
 	local MoreSize = SlapBattles:CreateSlider({
 	Name = "Increase Size of Glove",
@@ -132,8 +139,16 @@ local Window = Rayfield:CreateWindow({
 		game.Players.LocalPlayer.Character:FindFirstChildWhichIsA("Tool").Glove.Size = Vector3.new(SizeValue, SizeValue, SizeValue / 2)
 	end
 	})
+	local Rock = SlapBattles:CreateSection("Rock")
+	local RockMove = SlapBattles:CreateButton({
+	Name = "Let you move when you are in rock form (invincibility)",
+	Callback = function()
+		game.Players.LocalPlayer.Character.rock.Weld:Destroy()
+	end
+	})
+	local Replica = SlapBattles:CreateSection("Replica")
 	local BobFarm = SlapBattles:CreateToggle({
-	Name = "Toggle Bob Farm CANT DISABLE!!!",
+	Name = "Toggle Bob Farm",
 	CurrentValue = false,
 	Flag = "Toggle3", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
 	Callback = function(BobFarmToggle)
@@ -155,5 +170,25 @@ local Window = Rayfield:CreateWindow({
 		else
 			coroutine.close(StartBobFarm)
 		end
+	end
+	})
+	local Ghost = SlapBattles:CreateSection("Ghost")
+	local Keybind = SlapBattles:CreateKeybind({
+	Name = "Go invisible",
+	CurrentKeybind = "T",
+	HoldToInteract = false,
+	Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Invisible)
+		game:GetService("ReplicatedStorage").Ghostinvisibilityactivated:FireServer()
+	end
+	})
+	local Keybind = SlapBattles:CreateKeybind({
+	Name = "Go visible",
+	CurrentKeybind = "Y",
+	HoldToInteract = false,
+	Flag = "Keybind1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+	Callback = function(Noinvisible)
+		game:GetService("ReplicatedStorage").Ghostinvisibilitydeactivated:FireServer()
+		game:GetService("Workspace").creepyambiance:Destroy()
 	end
 	})
